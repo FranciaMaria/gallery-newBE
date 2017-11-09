@@ -14,13 +14,8 @@
 
 @section('content')
 
-  @if(auth()->user()->id === $gallery->user_id)
 
-      <div class="form-group">
-          <button class="btn btn-primary" href="{{ route('gallery-edit', $gallery->id) }}">Edit</button>
-          <button class="btn btn-primary" href="{{ route('gallery-delete', $gallery->id) }}">Delete</button>
-      </div>
-  @endif
+ 
 
     <div class="blog-post">
       <h2 class="blog-post-title">{{ $gallery->name }}</h2>
@@ -36,6 +31,37 @@
           @endforeach
       </ul>
     </div>
+
+    @if(auth()->user()->id === $gallery->user_id)
+
+        <form method="POST" action="{{ route('gallery-photos', ['gallery_id' => $gallery->id]) }}">
+
+              {{ csrf_field() }}
+
+        <div class="form-group">
+
+
+            <label for="url">Image url</label>
+
+
+            <input class="form-control" id="url" name="url">
+            @include('partials.error-message', ['fieldTitle' => 'url'])
+          
+            
+        </div>
+
+         <div class="form-group">
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </div>
+
+
+        </form>
+
+      @endif
+    
+
     <hr>
     <ul class="unstyled">
         @foreach ($gallery->comments as $comment)
@@ -73,3 +99,33 @@
 
 
 @endsection
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script type="text/javascript">
+
+
+    $(document).ready(function() {
+
+
+      $(".add-more").click(function(){ 
+
+          var html = $(".copy").html();
+
+          $(".after-add-more").after(html);
+
+      });
+
+
+      $("body").on("click",".remove",function(){ 
+
+          $(this).parents(".control-group").remove();
+
+      });
+
+
+    });
+
+
+</script>

@@ -15,18 +15,22 @@ Route::get('/', ['as' => 'galleries', 'uses' => 'GalleriesController@index']);
 
 Route::get('/galleries/{id}', ['as' => 'single-gallery', 'uses' => 'GalleriesController@show']);
 
-
 Route::get('/create', ['as' => 'create-gallery', 'uses' => 'GalleriesController@create']);
+
+Route::get('/photos/{id}', ['as' => 'single-photo', 'uses' => 'PhotosController@show']);
 
 
 Route::post('/galleries', ['as' => 'store-gallery', 'uses' => 'GalleriesController@store']);
 
+Route::post('/galleries/{gallery_id}/photos', ['as' => 'gallery-photos', 'uses' => 'PhotosController@store']);
+
 Route::post('/galleries/{gallery_id}/comments', ['as' => 'gallery-comments', 'uses' => 'CommentsController@store']);
 
-Route::put('/galleries/{id}', ['as' => 'gallery-edit', 'uses' => 'GalleriesController@update']);
+Route::put('/galleries/{id}', ['as' => 'gallery-edit', 'uses' => 'GalleriesController@edit']);
+
 Route::delete('/galleries/{id}', ['as' => 'gallery-delete', 'uses' => 'GalleriesController@destroy']);
 
-Route::get('/photos/{id}', ['as' => 'single-photo', 'uses' => 'PhotosController@show']);
+
 
 Route::get('/register', ['as' => 'register', 'uses' => 'RegisterController@create']);
 Route::post('/register', 'RegisterController@store');

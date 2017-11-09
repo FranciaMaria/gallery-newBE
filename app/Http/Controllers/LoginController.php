@@ -37,7 +37,7 @@ class LoginController extends Controller
 
         auth()->logout();
 
-        return redirect()->route('homepage');
+        return redirect()->route('galleries');
 
     }
 }

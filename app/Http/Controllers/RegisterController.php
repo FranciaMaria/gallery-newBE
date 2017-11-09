@@ -37,7 +37,7 @@ class RegisterController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        $user->save();
+        //$user->save();
 
         return redirect()->route('galleries');
 

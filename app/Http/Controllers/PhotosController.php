@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use App\Photo;
+use App\Gallery;
 
 class PhotosController extends Controller
 {
@@ -20,4 +23,25 @@ class PhotosController extends Controller
         return view('photos.show', compact('photo'));
 
     }
+
+    public function store (Request $request, $gallery_id) {
+
+        $request->validate(
+            [
+                'url' => 'required | url '
+            ]
+        );
+
+        $gallery = Gallery::find($gallery_id);
+
+        Photo::create([
+            'url' => $request->input('url'),
+            'gallery_id' => $gallery->id,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        return redirect()->route('single-gallery', ['id' => $gallery_id]);
+
+    }
+
 }

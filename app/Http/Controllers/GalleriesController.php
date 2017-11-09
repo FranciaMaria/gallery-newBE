@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Gallery;
 
 class GalleriesController extends Controller
@@ -30,20 +31,39 @@ class GalleriesController extends Controller
 
     public function store(Request $request){ 
         //$request->validate(Gallery::STORE_RULES);
-        $gallery = Gallery::create($request->all());
-        return redirect()->route('homepage');
+        //$gallery = Gallery::create($request->all());
+        //return redirect()->route('galleries');
+
+        $gallery = Gallery::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'user_id' => Auth::user()->id
+        ]);
+
+        return redirect()->route('galleries');
     }
 
     public function create(){
         return view('galleries.create');
     }
 
+    public function edit(Request $request, $id)
+    {
+        $gallery = Gallery::find($id);
+        
+        return view('galleries.edit', compact('gallery','id'));
+
+    }
+
+
     public function update(Request $request, $id)
     {
-        $gallery = Gallery::with('photos', 'comments.user')->find($id);
 
-        $gallery->name = $request->input('name');
-        $gallery->director = $request->input('description');
+        $gallery = Gallery::with('photos')->find($id);
+
+        $gallery->name = $request->get('name');
+        $gallery->director = $request->get('description');
+        $gallery->photos()->url = $request->get('url'); //ne verujem da ce proci
 
         $gallery->update();
        
@@ -57,6 +77,8 @@ class GalleriesController extends Controller
 
         $gallery->delete();
         
-        return view('galleries.delete', compact('gallery'));
+        //return view('galleries.delete', compact('gallery'));
+
+        return $gallery;
     }
 }
