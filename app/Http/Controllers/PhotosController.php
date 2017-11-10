@@ -28,7 +28,7 @@ class PhotosController extends Controller
 
         $request->validate(
             [
-                'url' => 'required | url '
+                'url' => 'required | url | regex:/^https?://(?:[a-z0-9\-]+\.)+[a-z]{2,6}(?:/[^/#?]+)+\.(?:jpg|gif|png)$/'
             ]
         );
 

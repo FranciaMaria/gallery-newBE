@@ -15,6 +15,8 @@ Route::get('/', ['as' => 'galleries', 'uses' => 'GalleriesController@index']);
 
 Route::get('/galleries/{id}', ['as' => 'single-gallery', 'uses' => 'GalleriesController@show']);
 
+Route::get('/galleries/author/{id}', ['as' => 'gallery-author', 'uses' => 'GalleriesController@getGalleriesByUser']);
+
 Route::get('/create', ['as' => 'create-gallery', 'uses' => 'GalleriesController@create']);
 
 Route::get('/photos/{id}', ['as' => 'single-photo', 'uses' => 'PhotosController@show']);

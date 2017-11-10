@@ -21,6 +21,13 @@ class LoginController extends Controller
 
     public function store () {
 
+        $request->validate(
+            [
+                'email' => 'required | email',
+                'password' => 'required | min:8'
+            ]
+        );
+
         if(!auth()->attempt(request(['email', 'password']))) {
 
             return back()->withErrors(['message' => 'Bad credentials. Please try again']);

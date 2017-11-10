@@ -30,9 +30,13 @@ class GalleriesController extends Controller
     }
 
     public function store(Request $request){ 
-        //$request->validate(Gallery::STORE_RULES);
-        //$gallery = Gallery::create($request->all());
-        //return redirect()->route('galleries');
+        
+        $request->validate(
+            [
+                'name' => 'required | max: 255',
+                'description' => 'max: 1000 '
+            ]
+        );
 
         $gallery = Gallery::with('photos')->create([
             'name' => $request->input('name'),
@@ -78,5 +82,12 @@ class GalleriesController extends Controller
         $gallery->delete();
 
         return redirect('/');
+    }
+
+    public function getGalleriesByUser($id){
+
+        $galleries = Gallery::where('user_id', '=', $id)->get();
+
+        return view('galleries.author', compact('galleries'));
     }
 }
