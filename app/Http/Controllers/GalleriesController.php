@@ -34,7 +34,7 @@ class GalleriesController extends Controller
         //$gallery = Gallery::create($request->all());
         //return redirect()->route('galleries');
 
-        $gallery = Gallery::create([
+        $gallery = Gallery::with('photos')->create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'user_id' => Auth::user()->id
@@ -47,9 +47,9 @@ class GalleriesController extends Controller
         return view('galleries.create');
     }
 
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
-        $gallery = Gallery::find($id);
+        $gallery = Gallery::with('photos')->find($id);
         
         return view('galleries.edit', compact('gallery','id'));
 
@@ -61,24 +61,22 @@ class GalleriesController extends Controller
 
         $gallery = Gallery::with('photos')->find($id);
 
-        $gallery->name = $request->get('name');
-        $gallery->director = $request->get('description');
-        $gallery->photos()->url = $request->get('url'); //ne verujem da ce proci
+        $gallery->name = $request->input('name');
+        $gallery->description = $request->input('description');
+        $gallery->photos()->url = $request->input('url');
 
-        $gallery->update();
+        $gallery->save();
        
-        return $gallery;
-
+        return redirect('/');
     }
 
     public function destroy($id)
     {
-        $gallery = Gallery::find($id);
+
+        $gallery =  Gallery::find($id);
 
         $gallery->delete();
-        
-        //return view('galleries.delete', compact('gallery'));
 
-        return $gallery;
+        return redirect('/');
     }
 }

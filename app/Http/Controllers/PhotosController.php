@@ -44,4 +44,17 @@ class PhotosController extends Controller
 
     }
 
+     public function update(Request $request, $id)
+    {
+
+        $photo = Photo::find($id);
+
+        $photo->url = $request->input('url');
+       
+        $photo->save();
+       
+        return redirect('/');
+    }
+
+
 }

@@ -26,7 +26,12 @@ Route::post('/galleries/{gallery_id}/photos', ['as' => 'gallery-photos', 'uses' 
 
 Route::post('/galleries/{gallery_id}/comments', ['as' => 'gallery-comments', 'uses' => 'CommentsController@store']);
 
-Route::put('/galleries/{id}', ['as' => 'gallery-edit', 'uses' => 'GalleriesController@edit']);
+Route::get('edit/galleries/{id}', ['as' => 'gallery-edit', 'uses' => 'GalleriesController@edit']);
+
+Route::post('/galleries/{id}', ['as' => 'update-gallery', 'uses' => 'GalleriesController@update']);
+
+Route::post('/galleries/{id}/photos', ['as' => 'update-photo', 'uses' => 'PhotosController@update']);
+
 
 Route::delete('/galleries/{id}', ['as' => 'gallery-delete', 'uses' => 'GalleriesController@destroy']);
 

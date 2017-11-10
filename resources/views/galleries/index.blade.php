@@ -20,9 +20,17 @@
 
           @if(auth()->user()->id === $gallery->user_id)
 
-      		<div class="form-group">
-          		<a href="{{ route('gallery-edit', $gallery['id']) }}">Edit</a>
-          		<a href="{{ route('gallery-delete', $gallery['id']) }}">Delete</a>
+          <div class="form-group">
+            <a  class="nav-link" href="{{ route('gallery-edit', $gallery['id']) }}"><button>Edit</button></a>
+          </div>
+          <div class="form-group">
+            <form action="{{ route('gallery-delete', $gallery['id']) }}" method="post">
+              <input type="hidden" name="_method" value="delete" />
+                <button type="submit">Delete</button>
+                {!! csrf_field() !!}
+            </form>
+          		<!-- <a href="{{ route('gallery-edit', $gallery['id']) }}">Edit</a>
+          		<a href="{{ route('gallery-delete', $gallery['id']) }}">Delete</a> -->
       		</div>
   		  @endif
           <hr>
